@@ -10,25 +10,18 @@ app.get('/', function (req, res) {
 });
 
 app.get('/test', function(req, res) {
-  var openalpr = require ("node-openalpr");
+  var fs = require('fs');
+  var process = require('child_process');
+  var ls = process.exec('alpr --json -c eu /src/h786poj.jpg', function (error, stdout, stderr) {
+  if(error) {
+     console.log("error code", error.code);
+     res.send('error code: ' + error.code + ' child response:' + stdout);
+   } else {
+     console.log('succesful run', JSON.stringify(stdout, null, 2));
+     res.send(' child response:' + stdout);
+   }
+  });
 
-  function identify (id, path) {
-  	console.log (openalpr.IdentifyLicense (path, function (error, output) {
-  		var results = output.results;
-          console.log (id +" "+ output.processing_time_ms +" "+ ((results.length > 0) ? results[0].plate : "No results"));
-
-  		if (id == 349) {
-  			console.log (openalpr.Stop ());
-  		}
-  	}));
-  }
-
-  openalpr.Start ();
-  openalpr.GetVersion ();
-
-  for (var i = 0; i < 350; i++) {
-  	identify (i, "h786poj.jpg");
-  }
 });
 
 app.listen(PORT);
