@@ -62,7 +62,7 @@ function uploadImage(req, res, next){
         var pathArray = req.files.image.path.split( '/' );
 
         var process = require('child_process');
-        var alprCommand = 'alpr --json -c eu ' + req.files.image.path;
+        var alprCommand = 'alpr --json -c ' + req.body.country +' ' + req.files.image.path;
         console.log('executing ALPR', alprCommand);
         var ls = process.exec(alprCommand, function (error, stdout, stderr) {
         if(error) {

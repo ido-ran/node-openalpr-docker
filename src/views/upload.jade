@@ -2,4 +2,5 @@ block content
     form(action="/upload", method="post", enctype="multipart/form-data")
         input(type="text", name="title")
         input(type="file", multiple, name="image")
+        input(type="text", name="country", value="us")
         button(type="submit", value="Upload") Upload File
